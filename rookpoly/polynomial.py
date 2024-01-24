@@ -72,7 +72,7 @@ class Polynomial(object):
     def __pow__(self, y, z=None):
         raise NotImplemented()
 
-    def _radd__(self, val):
+    def __radd__(self, val):
         """Return val+self"""
         return self + val
 
