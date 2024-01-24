@@ -70,7 +70,7 @@ class Polynomial(object):
         return self.__class__([-co for co in self.coeffs])
 
     def __pow__(self, y, z=None):
-        raise NotImplemented()
+        raise NotImplementedError
 
     def __radd__(self, val):
         """Return val+self"""
