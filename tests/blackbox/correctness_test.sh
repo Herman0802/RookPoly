@@ -12,6 +12,7 @@ RESET='\033[0m'
 
 ok_count=0
 fail_count=0
+error_count=0
 
 pushd "$(dirname "$0")" > /dev/null || exit 1
 
@@ -26,19 +27,25 @@ for input_file in "$CASES_DIR"/*.in; do
 
     # Redirect input from the input file
     output=$($PROGRAM_PATH < "$input_file")
+    exit_code=$?
 
-    # Simplify the output and expected output by excluding certain patterns
-    simplified_output=$(echo "$output" | grep -vE "$exclude_patterns")
-    simplified_expected_output=$(grep -vE "$exclude_patterns" "$expected_output_file")
+    if [ "$exit_code" -eq 0 ]; then
+        # Simplify the output and expected output by excluding certain patterns
+        simplified_output=$(echo "$output" | grep -vE "$exclude_patterns")
+        simplified_expected_output=$(grep -vE "$exclude_patterns" "$expected_output_file")
 
-    if [ "$simplified_output" == "$simplified_expected_output" ]; then
-        ((ok_count++))
-        echo -e " ${GREEN}[PASSED]${RESET}"
+        if [ "$simplified_output" == "$simplified_expected_output" ]; then
+            ((ok_count++))
+            echo -e " ${GREEN}[PASSED]${RESET}"
+        else
+            ((fail_count++))
+            echo -e " ${RED}[FAILED]${RESET}"
+            echo -e "Expected output:   ${GREEN}$simplified_expected_output${RESET}"
+            echo -e "Actual output:     ${RED}$simplified_output${RESET}"
+        fi
     else
-        ((fail_count++))
-        echo -e " ${RED}[FAILED]${RESET}"
-        echo -e "Expected output:   ${GREEN}$simplified_expected_output${RESET}"
-        echo -e "Actual output:     ${RED}$simplified_output${RESET}"
+          ((error_count++))
+          echo -e "${RED}[ERROR]${RESET}"
     fi
 done
 
@@ -47,5 +54,6 @@ popd > /dev/null || exit 1
 echo -e "\nSummary:"
 echo -e "Passed tests: ${GREEN}$ok_count${RESET}"
 echo -e "Failed tests: ${RED}$fail_count${RESET}"
+echo -e "Errored tests: ${RED}$error_count${RESET}"
 
-[[ "$fail_count" == 0 ]] || exit 1
+[[ "$fail_count" == 0 && "$error_count" == 0 ]] || exit 1
