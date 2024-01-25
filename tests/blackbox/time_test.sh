@@ -4,7 +4,7 @@
 CASES_DIR="$(dirname "$0")/test_cases/time"
 PROGRAM_PATH="python3 $(dirname "$0")/../../main.py"
 
-# Define ANSI color codes
+# ANSI color codes
 YELLOW='\033[1;93m'
 GREEN='\033[1;32m'
 RED='\033[1;31m'

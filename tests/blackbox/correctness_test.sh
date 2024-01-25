@@ -4,7 +4,7 @@
 CASES_DIR="$(dirname "$0")/test_cases/correctness"
 PROGRAM_PATH="python3 $(dirname "$0")/../../main.py"
 
-# Define ANSI color codes
+# ANSI color codes
 YELLOW='\033[1;93m'
 GREEN='\033[1;32m'
 RED='\033[1;31m'
@@ -30,7 +30,7 @@ for input_file in "$CASES_DIR"/*.in; do
     exit_code=$?
 
     if [ "$exit_code" -eq 0 ]; then
-        # Simplify the output and expected output by excluding certain patterns
+        # Simplify the output and expected output by excluding unnecessary output data
         simplified_output=$(echo "$output" | grep -vE "$exclude_patterns")
         simplified_expected_output=$(grep -vE "$exclude_patterns" "$expected_output_file")
 
