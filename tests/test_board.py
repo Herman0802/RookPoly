@@ -9,8 +9,8 @@ class TestBoard(unittest.TestCase):
 
     def setUp(self):
         self.empty_boards = [Board(['0' * i for _ in range(i)]) for i in range(self.empty_boards_limit)]
-        self.board_global_1 = Board(["110", "100", "000", "001"])
-        self.board_global_2 = Board(["00111", "00111", "11100", "11100", "11000"])
+        self.board_1 = Board(["110", "100", "000", "001"])
+        self.board_2 = Board(["00111", "00111", "11100", "11100", "11000"])
 
     def test_init(self):
         # Testing proper board initialization
@@ -20,13 +20,13 @@ class TestBoard(unittest.TestCase):
 
     def test_n(self):
         # Testing the n property, which returns the number of rows
-        self.assertEqual(self.board_global_1.n, 4)
-        self.assertEqual(self.board_global_2.n, 5)
+        self.assertEqual(self.board_1.n, 4)
+        self.assertEqual(self.board_2.n, 5)
 
     def test_m(self):
         # Testing the m property, which returns the number of columns
-        self.assertEqual(self.board_global_1.m, 3)
-        self.assertEqual(self.board_global_2.m, 5)
+        self.assertEqual(self.board_1.m, 3)
+        self.assertEqual(self.board_2.m, 5)
 
     def test_flip(self):
         # Testing flipping the board
@@ -40,11 +40,11 @@ class TestBoard(unittest.TestCase):
             board.rotate()
             self.assertEqual(board, ['0' * i for _ in range(i)])
 
-        self.board_global_1.rotate()
-        self.assertEqual(self.board_global_1, ["0011", "0001", "1000"])
+        self.board_1.rotate()
+        self.assertEqual(self.board_1, ["0011", "0001", "1000"])
 
-        self.board_global_2.rotate()
-        self.assertEqual(self.board_global_2, ["11100", "11100", "01111", "00011", "00011"])
+        self.board_2.rotate()
+        self.assertEqual(self.board_2, ["11100", "11100", "01111", "00011", "00011"])
 
     def test_rtrim(self):
         # Testing trimming empty spaces on the right side of the board
@@ -52,11 +52,11 @@ class TestBoard(unittest.TestCase):
             board.rtrim()
             self.assertEqual(board, ['0' * i for _ in range(i)])
 
-        self.board_global_1.rtrim()
-        self.assertEqual(self.board_global_1, ["110", "100", "000", "001"])
+        self.board_1.rtrim()
+        self.assertEqual(self.board_1, ["110", "100", "000", "001"])
 
-        self.board_global_2.rtrim()
-        self.assertEqual(self.board_global_2, ["00111", "00111", "11100", "11100", "11000"])
+        self.board_2.rtrim()
+        self.assertEqual(self.board_2, ["00111", "00111", "11100", "11100", "11000"])
 
     def test_remove_filled_rows(self):
         # Testing removing filled rows from the board
@@ -70,11 +70,11 @@ class TestBoard(unittest.TestCase):
             board.simplify()
             self.assertEqual(board, ['0' * i for _ in range(i)])
 
-        self.board_global_1.simplify()
-        self.assertEqual(self.board_global_1, ["0011", "0001", "1000"])
+        self.board_1.simplify()
+        self.assertEqual(self.board_1, ["0011", "0001", "1000"])
 
-        self.board_global_2.simplify()
-        self.assertEqual(self.board_global_2, ["00111", "00111", "11100", "11100", "11000"])
+        self.board_2.simplify()
+        self.assertEqual(self.board_2, ["00111", "00111", "11100", "11100", "11000"])
 
     def test_get_empty_squares(self):
         # Testing identifying empty squares on the board
@@ -83,10 +83,20 @@ class TestBoard(unittest.TestCase):
         self.assertEqual(empty_squares, [(0, 1), (0, 2), (1, 0), (1, 1), (2, 0), (2, 2)])
 
     def test_get_set(self):
-        # Testing reading and writing values in board cells
-        board = Board(["000", "000", "000"])
-        board.set(1, 1, '1')
-        self.assertEqual(board.get(1, 1), '1')
+        # Testing reading and writing values in specific board cells
+        board = Board(["010", "001", "100"])
+
+        # Set new values and check if they are correctly updated
+        board.set(0, 0, '1')
+        board.set(1, 1, '0')
+        board.set(2, 2, '1')
+
+        self.assertEqual(board.get(0, 0), '1')
+        self.assertEqual(board.get(1, 1), '0')
+        self.assertEqual(board.get(2, 2), '1')
+
+        # Ensure a cell that wasn't set remains unchanged
+        self.assertEqual(board.get(0, 1), '1')
 
     def test_is_valid_cut_column(self):
         # Testing if a column can be cut
@@ -110,7 +120,7 @@ class TestBoard(unittest.TestCase):
 
     def test_get_sub_board(self):
         # Testing getting a sub-board
-        self.assertEqual(self.board_global_1.get_sub_board(2, 0, 4, 3), ["000", "001"])
+        self.assertEqual(self.board_1.get_sub_board(2, 0, 4, 3), ["000", "001"])
 
     def test_get_poly(self):
         # Testing generating a polynomial based on the board
@@ -121,8 +131,8 @@ class TestBoard(unittest.TestCase):
         self.assertEqual(self.empty_boards[4].get_poly(), Polynomial(1, 16, 72, 96, 24))
         self.assertEqual(self.empty_boards[5].get_poly(), Polynomial(1, 25, 200, 600, 600, 120))
         self.assertEqual(self.empty_boards[6].get_poly(), Polynomial(1, 36, 450, 2400, 5400, 4320, 720))
-        self.assertEqual(self.board_global_1.get_poly(), Polynomial(1, 8, 16, 7))
-        self.assertEqual(self.board_global_2.get_poly(), Polynomial(1, 11, 40, 56, 28, 4))
+        self.assertEqual(self.board_1.get_poly(), Polynomial(1, 8, 16, 7))
+        self.assertEqual(self.board_2.get_poly(), Polynomial(1, 11, 40, 56, 28, 4))
 
     def test_eq(self):
         # Testing comparing two boards
@@ -132,10 +142,14 @@ class TestBoard(unittest.TestCase):
         self.assertTrue(board_1 == board_2)
         self.assertFalse(board_1 == board_3)
 
-    def test_repr_str(self):
-        # Testing the string representation of the object
+    def test_repr(self):
+        # Testing the __repr__ method for object representation
         board = Board(["100", "010", "001"])
         self.assertEqual(repr(board), "[['1', '0', '0'], ['0', '1', '0'], ['0', '0', '1']]")
+
+    def test_str(self):
+        # Testing the __str__ method for string representation
+        board = Board(["100", "010", "001"])
         self.assertEqual(str(board), "100\n010\n001")
 
 
