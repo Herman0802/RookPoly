@@ -1,6 +1,6 @@
 import unittest
 
-from rookpoly import Polynomial
+from rookpoly.polynomial import Polynomial
 
 
 class TestPolynomial(unittest.TestCase):
