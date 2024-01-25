@@ -1,4 +1,5 @@
 import time
+
 from rookpoly import Board
 
 

@@ -13,29 +13,29 @@ class TestBoard(unittest.TestCase):
         self.board_global_2 = Board(["00111", "00111", "11100", "11100", "11000"])
 
     def test_init(self):
-        # Testowanie poprawnej inicjalizacji planszy
+        # Testing proper board initialization
         board = Board(["100", "010"])
         self.assertEqual(board.n, 2)
         self.assertEqual(board.m, 3)
 
     def test_n(self):
-        # Testowanie właściwości n, zwracającej liczbę wierszy
+        # Testing the n property, which returns the number of rows
         self.assertEqual(self.board_global_1.n, 4)
         self.assertEqual(self.board_global_2.n, 5)
 
     def test_m(self):
-        # Testowanie właściwości m, zwracającej liczbę kolumn
+        # Testing the m property, which returns the number of columns
         self.assertEqual(self.board_global_1.m, 3)
         self.assertEqual(self.board_global_2.m, 5)
 
     def test_flip(self):
-        # Testowanie odwracania planszy
+        # Testing flipping the board
         board = Board(["100", "010", "001"])
         board.flip()
         self.assertEqual(board, Board(["001", "010", "100"]))
 
     def test_rotate(self):
-        # Testowanie rotacji planszy
+        # Testing board rotation
         for (i, board) in enumerate(self.empty_boards):
             board.rotate()
             self.assertEqual(board, ['0' * i for _ in range(i)])
@@ -47,7 +47,7 @@ class TestBoard(unittest.TestCase):
         self.assertEqual(self.board_global_2, ["11100", "11100", "01111", "00011", "00011"])
 
     def test_rtrim(self):
-        # Testowanie przycinania pustych miejsc po prawej stronie planszy
+        # Testing trimming empty spaces on the right side of the board
         for (i, board) in enumerate(self.empty_boards):
             board.rtrim()
             self.assertEqual(board, ['0' * i for _ in range(i)])
@@ -59,13 +59,13 @@ class TestBoard(unittest.TestCase):
         self.assertEqual(self.board_global_2, ["00111", "00111", "11100", "11100", "11000"])
 
     def test_remove_filled_rows(self):
-        # Testowanie usuwania wypełnionych wierszy z planszy
+        # Testing removing filled rows from the board
         board = Board(["111", "000", "010"])
         board.remove_filled_rows()
         self.assertEqual(board, Board(["000", "010"]))
 
     def test_simplify(self):
-        # Testowanie uproszczenia planszy
+        # Testing simplifying the board
         for (i, board) in enumerate(self.empty_boards):
             board.simplify()
             self.assertEqual(board, ['0' * i for _ in range(i)])
@@ -77,31 +77,31 @@ class TestBoard(unittest.TestCase):
         self.assertEqual(self.board_global_2, ["00111", "00111", "11100", "11100", "11000"])
 
     def test_get_empty_squares(self):
-        # Testowanie identyfikacji pustych kwadratów na planszy
+        # Testing identifying empty squares on the board
         board = Board(["100", "001", "010"])
         empty_squares = list(board.get_empty_squares())
         self.assertEqual(empty_squares, [(0, 1), (0, 2), (1, 0), (1, 1), (2, 0), (2, 2)])
 
     def test_get_set(self):
-        # Testowanie odczytu i zapisu wartości w komórkach planszy
+        # Testing reading and writing values in board cells
         board = Board(["000", "000", "000"])
         board.set(1, 1, '1')
         self.assertEqual(board.get(1, 1), '1')
 
     def test_is_valid_cut_column(self):
-        # Testowanie, czy kolumna może być przecięta
+        # Testing if a column can be cut
         board = Board(["1001", "1111", "1001"])
         self.assertTrue(board.is_valid_cut_column(1))
         self.assertFalse(board.is_valid_cut_column(2))
 
     def test_get_cuttable_columns(self):
-        # Testowanie identyfikacji kolumn, które mogą być przecięte
+        # Testing identifying columns that can be cut
         board = Board(["1001", "1111", "1001"])
         cuttable_columns = list(board.get_cuttable_columns())
         self.assertEqual(cuttable_columns, [1, 3])
 
     def test_cut_columns(self):
-        # Testowanie przycinania kolumn z planszy
+        # Testing cutting columns from the board
         board = Board(["100", "110", "100"])
         sub_boards = list(board.cut_columns())
         self.assertEqual(len(sub_boards), 2)
@@ -109,11 +109,11 @@ class TestBoard(unittest.TestCase):
         self.assertEqual(sub_boards[1], Board(["00", "10", "00"]))
 
     def test_get_sub_board(self):
-        # Testowanie pobierania podplanszy
+        # Testing getting a sub-board
         self.assertEqual(self.board_global_1.get_sub_board(2, 0, 4, 3), ["000", "001"])
 
     def test_get_poly(self):
-        # Testowanie generowania wielomianu na podstawie planszy
+        # Testing generating a polynomial based on the board
         self.assertEqual(self.empty_boards[0].get_poly(), Polynomial(1))
         self.assertEqual(self.empty_boards[1].get_poly(), Polynomial(1, 1))
         self.assertEqual(self.empty_boards[2].get_poly(), Polynomial(1, 4, 2))
@@ -125,7 +125,7 @@ class TestBoard(unittest.TestCase):
         self.assertEqual(self.board_global_2.get_poly(), Polynomial(1, 11, 40, 56, 28, 4))
 
     def test_eq(self):
-        # Testowanie porównywania dwóch plansz
+        # Testing comparing two boards
         board_1 = Board(["100", "010", "001"])
         board_2 = Board(["100", "010", "001"])
         board_3 = Board(["101", "010", "001"])
@@ -133,7 +133,7 @@ class TestBoard(unittest.TestCase):
         self.assertFalse(board_1 == board_3)
 
     def test_repr_str(self):
-        # Testowanie reprezentacji stringowej obiektu
+        # Testing the string representation of the object
         board = Board(["100", "010", "001"])
         self.assertEqual(repr(board), "[['1', '0', '0'], ['0', '1', '0'], ['0', '0', '1']]")
         self.assertEqual(str(board), "100\n010\n001")
