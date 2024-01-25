@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # This script runs the program on all test cases in the test_cases directory
-CASES_DIR="$(dirname "$0")/test_cases"
+CASES_DIR="$(dirname "$0")/test_cases/correctness"
 PROGRAM_PATH="python3 $(dirname "$0")/../../main.py"
 
 # Define ANSI color codes
