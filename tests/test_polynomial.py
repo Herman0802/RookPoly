@@ -1,8 +1,10 @@
 import unittest
+
 from rookpoly import Polynomial
 
 
 class TestPolynomial(unittest.TestCase):
+
     def test_init(self):
         # Test initialization from a sequence
         p = Polynomial([1, 2, 3])
