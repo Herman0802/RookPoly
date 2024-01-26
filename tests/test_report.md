@@ -1,10 +1,10 @@
 Herman Lazarchyk, Maksim Zdobnikau
 
-# Comprehensive Unit Test Report for the RookPoly Project
+# Comprehensive Test Report for the RookPoly Project
 
 ## Project Context and Mathematical Basis
 - **Project Name**: RookPoly
-- **Subject Area**: Discrete Mathematics - Chess Polynomial
+- **Subject Area**: Discrete Mathematics – Chess Polynomial
 - **Mathematical Source**: [Wikipedia: Rook Polynomial](https://en.wikipedia.org/wiki/Rook_polynomial)
 - **Project Description**: The RookPoly project focuses on the implementation and analysis of the chess polynomial. It consists of two main components: the `Board` class, responsible for representing and manipulating the state of the board, and the `Polynomial` class, which allows for mathematical operations on polynomials.
 
