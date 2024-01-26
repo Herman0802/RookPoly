@@ -79,7 +79,7 @@ Herman Lazarchyk, Maksim Zdobnikau
 
 ## Blackbox Testing Process
 ### Testing Method
-- **Blackbox Testing**: Utilized Bash scripts to test the application's functionality without considering its internal structure.
+- **Blackbox Testing**: Utilized `bash` scripts to test the application's functionality without considering its internal structure.
 - **Mathematical Verification**: Checked the consistency of application results with the mathematical principles of the chess polynomial.
 - **Time Testing**: Measured the execution time of the application for various input cases.
 
